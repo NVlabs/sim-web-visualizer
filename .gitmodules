@@ -1,0 +1,6 @@
+[submodule "3rd_party/meshcat-python"]
+	path = 3rd_party/meshcat-python
+	url = https://github.com/yzqin/meshcat-python
+[submodule "example/isaacgym/IsaacGymEnvs"]
+	path = example/isaacgym/IsaacGymEnvs
+	url = https://github.com/NVIDIA-Omniverse/IsaacGymEnvs

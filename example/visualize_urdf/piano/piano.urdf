@@ -1,0 +1,819 @@
+<?xml version="1.0" ?>
+<robot name="piano" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <link name="base_link">
+  </link>
+  <joint name="frame_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="frame"/>
+    <origin rpy="1.57079 0 0" xyz="0 0 0.071"/>
+  </joint>
+  <link name="frame">
+    <visual>
+      <geometry>
+        <mesh filename="frame.obj"/>
+      </geometry>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="fixed_key.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0.028443 0" xyz="0 0.45 0.23"/>
+      <geometry>
+        <box size="1.9 1.06 0.62"/>
+      </geometry>
+    </collision>
+    <collision>
+      <origin rpy="0 0.028443 0" xyz="0 1.11 0.11"/>
+      <geometry>
+        <box size="1.9 0.26 0.38"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-1" ixy="0" ixz="0" iyy="1e-1" iyz="0" izz="1e-1"/>
+    </inertial>
+  </link>
+  <link name="white_key_axis_link">
+    <inertial>
+      <mass value="0.1"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
+    </inertial>
+  </link>
+  <joint name="white_key_axis_joint" type="fixed">
+    <parent link="frame"/>
+    <child link="white_key_axis_link"/>
+    <origin rpy="0.0 0.028443 0" xyz="0 1.04 0.34"/>
+  </joint>
+
+  <!--  First group white key-->
+  <link name="white_key_0">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line029.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.275 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_0_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_0"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_1">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line011.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.245 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_1_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_1"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_2">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line042.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.212 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_2_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_2"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_3">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line030.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.182 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_3_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_3"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_4">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line012.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.15 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_4_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_4"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_5">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line013.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.12 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_5_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_5"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_6">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line043.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.086 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_6_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_6"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+
+  <!--  Second group white key-->
+  <link name="white_key_7">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line031.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.055 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_7_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_7"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_8">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line014.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.025 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_8_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_8"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_9">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line044.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.008 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_9_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_9"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_10">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line032.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.038 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_10_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_10"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_11">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line015.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.07 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_11_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_11"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_12">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line016.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.10 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_12_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_12"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_13">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line045.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.134 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_13_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_13"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+
+  <!--  Third group white key-->
+  <link name="white_key_14">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line033.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.165 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_14_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_14"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_15">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line017.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.195 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_15_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_15"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_16">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line046.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.228 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_16_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_16"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_17">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line034.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.258 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_17_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_17"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_18">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line018.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.29 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_18_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_18"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_19">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line019.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.32 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_19_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_19"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="white_key_20">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Line047.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.254 -0.01 0.074" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0288 0.015 0.175"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="white_key_20_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="white_key_20"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+
+  <!--  First group black key-->
+  <link name="black_key_0">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle012.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.26 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_0_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_0"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_1">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle013.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.23 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_1_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_1"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_2">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle014.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.165 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_2_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_2"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_3">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle015.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.135 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_3_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_3"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_4">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle016.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.105 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_4_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_4"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+
+  <!--  Second group black key-->
+  <link name="black_key_5">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle017.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.04 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_5_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_5"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_6">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle018.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="-0.01 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_6_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_6"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_7">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle019.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.055 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_7_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_7"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_8">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle020.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.085 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_8_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_8"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_9">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle021.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.115 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_9_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_9"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+
+  <!--  Third group black key-->
+  <link name="black_key_10">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle022.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.18 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_10_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_10"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_11">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle023.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.21 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_11_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_11"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_12">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle024.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.275 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_12_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_12"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_13">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle025.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.305 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_13_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_13"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+  <link name="black_key_14">
+    <visual>
+      <origin xyz="0.011 -1.04 -0.34" rpy="0 -0.028433 0"/>
+      <geometry>
+        <mesh filename="key/Rectangle026.obj"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0.335 -0.005 0.05" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.0215 0.03 0.123"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="black_key_14_joint" type="revolute">
+    <axis xyz="1 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="white_key_axis_link"/>
+    <child link="black_key_14"/>
+    <limit effort="20" velocity="0.2" lower="0" upper="0.08"/>
+  </joint>
+</robot>

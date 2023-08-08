@@ -1,0 +1,49 @@
+# Copyright (c) 2022-2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+#
+# Licensed under the MIT License [see LICENSE for details].
+
+*.swp
+*.pyc
+*.py~
+*.bak
+.pytest_cache
+.DS_Store
+.idea
+.vscode
+.coverage
+.coverage.*
+__pycache__/
+_build/
+*.npz
+*.ini
+*.pth
+.pytype/
+
+# Setuptools distribution and build folders.
+/dist/
+/build
+keys/
+
+
+*.sublime-project
+*.sublime-workspace
+
+.idea
+
+logs/
+
+.ipynb_checkpoints
+ghostdriver.log
+
+htmlcov
+
+junk
+
+*.egg-info
+.cache
+*.lprof
+*.prof
+
+# Experiment files
+example/isaacgym/runs
+example/isaacgym/cfg
