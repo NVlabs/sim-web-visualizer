@@ -50,7 +50,7 @@ Visualizer.
 
 ## Citing This Repo
 
-This repository is a part of the [AnyTeleop Project](anyteleop.com/). If you use this work, kindly reference it
+This repository is a part of the [AnyTeleop Project](http://anyteleop.com/). If you use this work, kindly reference it
 as:
 
 ```shell
