@@ -128,7 +128,8 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
             # Load asset into the memory as asset resource but not forward it into the web viewer
             # The asset will only be loaded into web viewer after a `create_actor` call
             resource = self.dry_load_asset(filename, collapse_fixed_joints,
-                                           replace_cylinder_with_capsule=options.replace_cylinder_with_capsule)
+                                           replace_cylinder_with_capsule=options.replace_cylinder_with_capsule,
+                                           use_mesh_materials=options.use_mesh_materials)
             self.asset_resource_map[id(asset)] = resource
             return asset
 
@@ -353,7 +354,7 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
 
             if USE_GPU_PIPELINE:
                 self.original_gym.refresh_rigid_body_state_tensor(self.sim)
-                rigid_body_state = self.rigid_body_state_tensor.cpu().numpy()[:len(self.env_map), :, :7]
+                rigid_body_state = self.rigid_body_state_tensor[:len(self.env_map), :, :7].cpu().numpy()
                 pos = rigid_body_state[:, :, :3]
                 quat = np.concatenate([rigid_body_state[..., 6:7], rigid_body_state[..., 3:6]], axis=-1)  # xyzw -> wxyz
                 qs = quaternion.as_quat_array(quat)

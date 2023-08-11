@@ -32,11 +32,11 @@ def wrapped_create_sim(self: vec_task.VecTask, compute_device: int, graphics_dev
 vec_task.VecTask.create_sim = wrapped_create_sim
 
 # Create web visualizer
-create_isaac_visualizer(port=6000, host="localhost", keep_default_viewer=True, max_env=1)
+create_isaac_visualizer(port=6000, host="localhost", keep_default_viewer=True, max_env=4)
 
 # Create the environment and step the simulation as normal
 device = "cuda"  # or "cpu"
-num_env = 2
+num_env = 8
 rl_device = device
 envs = isaacgymenvs.make(
     seed=0,

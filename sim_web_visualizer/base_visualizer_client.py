@@ -39,9 +39,6 @@ class MeshCatVisualizerBase:
         self.viz["/Lights/AmbientLight/<object>"].set_property("intensity", 0.8)
         self.viz["/Lights/PointLightNegativeX"].delete()
         self.viz["/Lights/PointLightPositiveX"].delete()
-        # self.viz["/Lights/PointLightNegativeX/<object>"].set_property("intensity", 1)
-        # TODO: cast shadow does not work
-        # self.viz["/Lights/PointLightNegativeX/<object>"].set_property("castShadow", False)
 
     def delete_all(self):
         print("Deleting all previous scene asset.")
@@ -50,10 +47,11 @@ class MeshCatVisualizerBase:
 
     @staticmethod
     def dry_load_asset(filename, collapse_fixed_joints: bool,
-                       replace_cylinder_with_capsule=False) -> AssetResource:
+                       replace_cylinder_with_capsule=False, use_mesh_materials=False) -> AssetResource:
         if filename.endswith(".urdf"):
             resource = load_urdf_with_yourdfpy(filename, collapse_fixed_joints,
-                                               replace_cylinder_with_capsule=replace_cylinder_with_capsule)
+                                               replace_cylinder_with_capsule=replace_cylinder_with_capsule,
+                                               use_mesh_materials=use_mesh_materials)
         elif filename.endswith(".xml"):
             resource = load_mjcf_with_dmc(filename, collapse_fixed_joints)
         else:

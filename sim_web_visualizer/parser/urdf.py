@@ -16,9 +16,9 @@ from sim_web_visualizer.parser.mesh_parser import load_mesh, get_trimesh_geometr
 
 
 def load_urdf_with_yourdfpy(urdf_path: str, collapse_fixed_joints: bool,
-                            replace_cylinder_with_capsule=False) -> AssetResource:
+                            replace_cylinder_with_capsule=False, use_mesh_materials=False) -> AssetResource:
     robot = urdf.URDF.load(urdf_path)
-    material_map = robot._material_map
+    material_map = robot._material_map if not use_mesh_materials else {}
 
     # Dry run data for faster loading
     offline_data_dict = {}
