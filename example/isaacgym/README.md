@@ -13,7 +13,16 @@ pip install hydra-core gym==0.23.1 rl-games torch pyvirtualdisplay omegaconf jin
 
 #### Train and visualize IsaacGym in Jupyter Notebook
 
-[Jupyter Notebook Example](./train_isaacgym_remote_server.ipynb)
+```shell
+pip install jupyter
+# Launch Jupyter server
+jupyter notebook --ip 0.0.0.0
+
+```
+
+Follow the instruction in [Jupyter Notebook Example](./train_isaacgym_remote_server.ipynb)
+
+![notebook example](docs/notebook.gif)
 
 #### Visualize environment with random action agent
 

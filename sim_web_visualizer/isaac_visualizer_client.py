@@ -167,7 +167,7 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
                 self.env_handle_request += 1
 
                 if self.num_per_row is None:
-                    self.num_per_row = arg3
+                    self.num_per_row = min(arg3, int(np.ceil(np.sqrt(self.max_env))))
                     env_size = arg2 - arg1
                     self.env_size = np.array([env_size.x, env_size.y, env_size.z])
             return env

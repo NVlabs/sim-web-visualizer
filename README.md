@@ -23,10 +23,14 @@ apt install libzmq3-dev # For ubuntu
 brew install zmq # For Mac
 ```
 
+**Note:** this visualizer does not have a Python version requirement but
+IsaacGym requires Python 3.6, 3.7, or 3.8
+
 ```shell
-# git clone this repo
-cd sim-web-visualier && git submodule update --init --recursive
+git clone https://github.com/NVlabs/sim-web-visualizer
+cd sim-web-visualizer && git submodule update --init --recursive
 pip install -e .
+
 ```
 
 ## Examples
