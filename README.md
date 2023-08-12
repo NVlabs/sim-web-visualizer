@@ -68,8 +68,9 @@ as:
 
 ## Acknowledgments
 
-This repository is developed upon the outstanding [MeshCat](https://github.com/rdeits/meshcat) project. We extend our
-appreciation to the developers and custodians of MeshCat.
+This repository is developed upon [MeshCat](https://github.com/rdeits/meshcat). The URDF loader is
+adapted from [yourdfpy](https://github.com/clemense/yourdfpy).
+We extend our appreciation to the developers and custodians of these open sources projects.
 
 ## License and Disclaimer
 
