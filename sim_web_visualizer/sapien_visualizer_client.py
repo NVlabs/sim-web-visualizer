@@ -57,7 +57,8 @@ class MimicEntity:
             super().__setattr__(key, value)
 
 
-def visual2geom_mat(visual: sapien.VisualRecord, pose: np.ndarray) -> Tuple[List[g.Geometry], List[g.Material], List[np.ndarray]]:
+def visual2geom_mat(visual: sapien.VisualRecord, pose: np.ndarray) -> Tuple[
+    List[g.Geometry], List[g.Material], List[np.ndarray]]:
     scale = visual.scale.astype(float)
     material = visual.material
     if visual.type == "Box":

@@ -22,7 +22,7 @@ meshcat-server
 
 ```bash
 # Install the dependencies for ManiSkill2 if you have not
-pip install setuptools==50.0 mani-skill2
+pip install mani-skill2 # or pip install ."[sapien]" in the project root
 cd example/sapien
 
 # You may need to download the ManiSkill2 assets before running
@@ -31,3 +31,7 @@ python run_sapien_viz.py
 ```
 
 This will start the simulation, and you should be able to visualize it in your web browser via the provided link.
+
+## Limitations
+
+Currently, the rendering of soft body simulation is not support for SAPIEN ManiSkill.

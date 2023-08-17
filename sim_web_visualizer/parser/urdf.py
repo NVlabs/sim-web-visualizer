@@ -3,13 +3,11 @@
 # Licensed under the MIT License [see LICENSE for details].
 
 # Utils for load URDF for meshcat server
-from typing import List
 
 import meshcat.geometry as g
 import numpy as np
 import transforms3d
 import trimesh
-from meshcat.visualizer import Visualizer
 
 import sim_web_visualizer.parser.yourdfpy as urdf
 from sim_web_visualizer.parser.mesh_parser import load_mesh, get_trimesh_geometry_material, rgb_to_hex, AssetResource
@@ -163,91 +161,3 @@ def load_urdf_with_yourdfpy(urdf_path: str, collapse_fixed_joints: bool,
         pose_data=offline_pose_dict,
     )
     return resource
-
-
-def load_urdf_into_viewer_pin(filename: str, viewer: Visualizer, collapsed_link_names: List[str]):
-    import collada
-    import pinocchio as pin
-    # First parse the urdf with yourdfpy since it can better handle ROS pacakge format
-    my_urdf = urdf.URDF.load(filename)
-    urdf_string = my_urdf.write_xml_string()
-
-    # Then store the internal data structure inside pinocchio
-    robot: pin.pinocchio_pywrap.Model = pin.buildModelFromXML(urdf_string)
-    frame_id_map = {i: frame.name for i, frame in enumerate(robot.frames)}
-
-    # TODO: use collision model
-    visual_model = pin.buildGeomFromUrdfString(robot, my_urdf.write_xml_string(), pin.VISUAL)
-    # collision_model = pin.buildGeomFromUrdfString(robot, my_urdf.write_xml_string(), pin.COLLISION)
-    # data, collision_data, visual_data = pin.createDatas(robot, collision_model, visual_model)
-    # joint_pos = pin.neutral(robot)
-    # pin.forwardKinematics(robot, data, joint_pos)
-    # pin.updateGeometryPlacements(robot, data, visual_model, visual_data)
-
-    collapse_fixed_joints = len(collapsed_link_names) > 0
-    if collapse_fixed_joints:
-        parent_frame_map = {}
-        # The first two frames in pinocchio are 'universe' and 'root_joint', which are not presented in URDF
-        for frame_id, link_info in enumerate(robot.frames):  # type: int, pin.pinocchio_pywrap.Frame
-            if link_info.type != pin.pinocchio_pywrap.FrameType.BODY:
-                continue
-            name = link_info.name
-            if name in collapsed_link_names:
-                parent_frame_map[link_info.parent] = frame_id
-
-    # Load mesh based on geometry data
-    link_mesh_count = {}
-    for geom in visual_model.geometryObjects:  # type: pin.GeometryObject
-        color = geom.meshColor[:3]
-        opacity = geom.meshColor[3]
-        mat = None
-        if geom.meshPath == 'BOX':
-            geometry = g.Box(2 * geom.geometry.halfSide)
-        elif geom.meshPath == 'SPHERE':
-            geometry = g.Sphere(geom.geometry.radius)
-        elif geom.meshPath == 'CYLINDER':
-            radius, length = geom.geometry.radius, 2 * geom.geometry.halfLength
-            geometry = g.Cylinder(radius=radius, height=length)
-        else:
-            path = geom.meshPath
-            if path.endswith("dae"):
-                geometry = g.DaeMeshGeometry.from_file(path)
-                temp_mesh = collada.Collada(geom.meshPath)
-                img_info = [(im.path, im.data) for im in temp_mesh.images if im.path is not None]
-                if len(img_info) > 0:
-                    texture = g.ImageTexture(g.PngImage(data=img_info[0][1]))
-                    mat = g.MeshLambertMaterial(map=texture, opacity=opacity)
-
-            else:
-                exp_mesh = load_mesh(geom.meshPath, geom.meshScale)
-                geometry = g.ObjMeshGeometry.from_stream(trimesh.util.wrap_as_stream(exp_mesh))
-                texture_file = geom.meshTexturePath if geom.meshTexturePath else None
-                texture = g.ImageTexture(g.PngImage.from_file(texture_file)) if isinstance(texture_file,
-                                                                                           str) else None  # Create material
-                if texture is not None:
-                    mat = g.MeshLambertMaterial(map=texture, opacity=opacity)
-
-        # Only create color texture if the color is not the default value for better performance
-        if not np.allclose(geom.meshColor, np.array([0.9, 0.9, 0.9, 1])):
-            if not (np.any(color > 1) and color.dtype == np.int):
-                color *= 255
-            color = np.clip(color, 0, 255).astype(np.uint8)
-            mat = g.MeshLambertMaterial(color=rgb_to_hex(color), opacity=opacity)
-
-        # Compute relative pose
-        geom_frame_id = geom.parentFrame
-        frame_id = frame_id_map[geom_frame_id] if not collapse_fixed_joints else parent_frame_map[geom.parentJoint]
-        link_name = frame_id_map[frame_id]
-        link_pose = robot.frames[frame_id].placement
-
-        # Count geom name for each link
-        if link_name not in link_mesh_count:
-            link_mesh_count[link_name] = 0
-        else:
-            link_mesh_count[link_name] += 1
-        geom_id = link_mesh_count[link_name]
-
-        # Set mesh and pose
-        relative_pose = (link_pose.inverse() * geom.placement).homogeneous
-        viewer[f"{link_name}/{geom_id}"].set_object(geometry, material=mat)
-        viewer[f"{link_name}/{geom_id}"].set_transform(relative_pose)
