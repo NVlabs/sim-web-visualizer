@@ -7,6 +7,7 @@ First install [IsaacGym](https://developer.nvidia.com/isaac-gym). Note: IsaacGym
 
 ```shell
 pip install hydra-core gym==0.23.1 rl-games torch pyvirtualdisplay omegaconf jinja2
+# or pip install ."[isaacgym]" in the project root
 ```
 
 ### Examples

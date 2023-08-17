@@ -22,7 +22,8 @@ meshcat-server
 
 ```bash
 # Install the dependencies for ManiSkill2 if you have not
-pip install mani-skill2 # or pip install ."[sapien]" in the project root
+pip install mani-skill2 
+# or pip install ."[sapien]" in the project root
 cd example/sapien
 
 # You may need to download the ManiSkill2 assets before running
