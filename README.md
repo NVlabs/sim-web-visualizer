@@ -52,6 +52,19 @@ Web Visualizer on [ManiSkill2](https://github.com/haosulab/ManiSkill2).
 Check the [URDF Example](example/visualize_urdf/README.md) for information to visualize a static URDF file on Web
 Visualizer.
 
+## Troubleshooting
+
+`Can "Upgrade" only to "WebSocket"`
+
+This issue may arise if you have entered an incorrect URL into your browser. Ensure that the URL is in the
+format `http://YOUR_IP_ADDRESS:YOUR_PORT_NUM/static/`. The `/static/` part of the URL is essential and should not be
+omitted.
+
+`404: Not Found`
+
+Similar to the previous issue, the correct URL suffix should be `/static/`, and not `/static`. The trailing `/` is
+mandatory and should not be omitted.
+
 ## Citing This Repo
 
 This repository is a part of the [AnyTeleop Project](http://anyteleop.com/). If you use this work, kindly reference it
