@@ -27,10 +27,10 @@ def _array_eq(arr1, arr2):
     if arr1 is None and arr2 is None:
         return True
     return (
-        isinstance(arr1, np.ndarray)
-        and isinstance(arr2, np.ndarray)
-        and arr1.shape == arr2.shape
-        and (arr1 == arr2).all()
+            isinstance(arr1, np.ndarray)
+            and isinstance(arr2, np.ndarray)
+            and arr1.shape == arr2.shape
+            and (arr1 == arr2).all()
     )
 
 
@@ -43,12 +43,12 @@ class TransmissionJoint:
         if not isinstance(other, TransmissionJoint):
             return NotImplemented
         return (
-            self.name == other.name
-            and all(
+                self.name == other.name
+                and all(
             self_hi in other.hardware_interfaces
             for self_hi in self.hardware_interfaces
         )
-            and all(
+                and all(
             other_hi in self.hardware_interfaces
             for other_hi in other.hardware_interfaces
         )
@@ -66,13 +66,13 @@ class Actuator:
         if not isinstance(other, Actuator):
             return NotImplemented
         return (
-            self.name == other.name
-            and self.mechanical_reduction == other.mechanical_reduction
-            and all(
+                self.name == other.name
+                and self.mechanical_reduction == other.mechanical_reduction
+                and all(
             self_hi in other.hardware_interfaces
             for self_hi in self.hardware_interfaces
         )
-            and all(
+                and all(
             other_hi in self.hardware_interfaces
             for other_hi in other.hardware_interfaces
         )
@@ -90,14 +90,14 @@ class Transmission:
         if not isinstance(other, Transmission):
             return NotImplemented
         return (
-            self.name == other.name
-            and self.type == other.type
-            and all(self_joint in other.joints for self_joint in self.joints)
-            and all(other_joint in self.joints for other_joint in other.joints)
-            and all(
+                self.name == other.name
+                and self.type == other.type
+                and all(self_joint in other.joints for self_joint in self.joints)
+                and all(other_joint in self.joints for other_joint in other.joints)
+                and all(
             self_actuator in other.actuators for self_actuator in self.actuators
         )
-            and all(
+                and all(
             other_actuator in self.actuators for other_actuator in other.actuators
         )
         )
@@ -204,10 +204,10 @@ class Visual:
         if not isinstance(other, Visual):
             return NotImplemented
         return (
-            self.name == other.name
-            and _array_eq(self.origin, other.origin)
-            and self.geometry == other.geometry
-            and self.material == other.material
+                self.name == other.name
+                and _array_eq(self.origin, other.origin)
+                and self.geometry == other.geometry
+                and self.material == other.material
         )
 
 
@@ -221,9 +221,9 @@ class Collision:
         if not isinstance(other, Collision):
             return NotImplemented
         return (
-            self.name == other.name
-            and _array_eq(self.origin, other.origin)
-            and self.geometry == other.geometry
+                self.name == other.name
+                and _array_eq(self.origin, other.origin)
+                and self.geometry == other.geometry
         )
 
 
@@ -237,9 +237,9 @@ class Inertial:
         if not isinstance(other, Inertial):
             return NotImplemented
         return (
-            _array_eq(self.origin, other.origin)
-            and self.mass == other.mass
-            and _array_eq(self.inertia, other.inertia)
+                _array_eq(self.origin, other.origin)
+                and self.mass == other.mass
+                and _array_eq(self.inertia, other.inertia)
         )
 
 
@@ -254,14 +254,14 @@ class Link:
         if not isinstance(other, Link):
             return NotImplemented
         return (
-            self.name == other.name
-            and self.inertial == other.inertial
-            and all(self_visual in other.visuals for self_visual in self.visuals)
-            and all(other_visual in self.visuals for other_visual in other.visuals)
-            and all(
+                self.name == other.name
+                and self.inertial == other.inertial
+                and all(self_visual in other.visuals for self_visual in self.visuals)
+                and all(other_visual in self.visuals for other_visual in other.visuals)
+                and all(
             self_collision in other.collisions for self_collision in self.collisions
         )
-            and all(
+                and all(
             other_collision in self.collisions
             for other_collision in other.collisions
         )
@@ -300,17 +300,17 @@ class Joint:
         if not isinstance(other, Joint):
             return NotImplemented
         return (
-            self.name == other.name
-            and self.type == other.type
-            and self.parent == other.parent
-            and self.child == other.child
-            and _array_eq(self.origin, other.origin)
-            and _array_eq(self.axis, other.axis)
-            and self.dynamics == other.dynamics
-            and self.limit == other.limit
-            and self.mimic == other.mimic
-            and self.calibration == other.calibration
-            and self.safety_controller == other.safety_controller
+                self.name == other.name
+                and self.type == other.type
+                and self.parent == other.parent
+                and self.child == other.child
+                and _array_eq(self.origin, other.origin)
+                and _array_eq(self.axis, other.axis)
+                and self.dynamics == other.dynamics
+                and self.limit == other.limit
+                and self.mimic == other.mimic
+                and self.calibration == other.calibration
+                and self.safety_controller == other.safety_controller
         )
 
 
@@ -327,27 +327,27 @@ class Robot:
         if not isinstance(other, Robot):
             return NotImplemented
         return (
-            self.name == other.name
-            and all(self_link in other.links for self_link in self.links)
-            and all(other_link in self.links for other_link in other.links)
-            and all(self_joint in other.joints for self_joint in self.joints)
-            and all(other_joint in self.joints for other_joint in other.joints)
-            and all(
+                self.name == other.name
+                and all(self_link in other.links for self_link in self.links)
+                and all(other_link in self.links for other_link in other.links)
+                and all(self_joint in other.joints for self_joint in self.joints)
+                and all(other_joint in self.joints for other_joint in other.joints)
+                and all(
             self_material in other.materials for self_material in self.materials
         )
-            and all(
+                and all(
             other_material in self.materials for other_material in other.materials
         )
-            and all(
+                and all(
             self_transmission in other.transmission
             for self_transmission in self.transmission
         )
-            and all(
+                and all(
             other_transmission in self.transmission
             for other_transmission in other.transmission
         )
-            and all(self_gazebo in other.gazebo for self_gazebo in self.gazebo)
-            and all(other_gazebo in self.gazebo for other_gazebo in other.gazebo)
+                and all(self_gazebo in other.gazebo for self_gazebo in self.gazebo)
+                and all(other_gazebo in self.gazebo for other_gazebo in other.gazebo)
         )
 
 
@@ -414,9 +414,9 @@ def _str2float(s):
 
 
 def apply_visual_color(
-    geom: trimesh.Trimesh,
-    visual: Visual,
-    material_map: Dict[str, Material],
+        geom: trimesh.Trimesh,
+        visual: Visual,
+        material_map: Dict[str, Material],
 ) -> None:
     """Apply the color of the visual material to the mesh.
 
@@ -603,17 +603,17 @@ def validation_handler_strict(errors):
 
 class URDF:
     def __init__(
-        self,
-        robot: Robot = None,
-        build_scene_graph: bool = True,
-        build_collision_scene_graph: bool = False,
-        load_meshes: bool = True,
-        load_collision_meshes: bool = False,
-        filename_handler=None,
-        mesh_dir: str = "",
-        force_mesh: bool = False,
-        force_collision_mesh: bool = True,
-        build_tree: bool = False,
+            self,
+            robot: Robot = None,
+            build_scene_graph: bool = True,
+            build_collision_scene_graph: bool = False,
+            load_meshes: bool = True,
+            load_collision_meshes: bool = False,
+            filename_handler=None,
+            mesh_dir: str = "",
+            force_mesh: bool = False,
+            force_collision_mesh: bool = True,
+            build_tree: bool = False,
     ):
         """A URDF model.
 
@@ -987,8 +987,8 @@ class URDF:
                 # Skip comments and processing instructions,
                 # because they do not have names
                 if not (
-                    isinstance(elem, etree._Comment)
-                    or isinstance(elem, etree._ProcessingInstruction)
+                        isinstance(elem, etree._Comment)
+                        or isinstance(elem, etree._ProcessingInstruction)
                 ):
                     # Remove a namespace URI in the element's name
                     # elem.tag = etree.QName(elem).localname
@@ -1025,9 +1025,9 @@ class URDF:
                     key=key, value=value, element=field_value
                 )
             elif (
-                isinstance(field_value, list)
-                and len(field_value) > 0
-                and is_dataclass(field_value[0])
+                    isinstance(field_value, list)
+                    and len(field_value) > 0
+                    and is_dataclass(field_value[0])
             ):
                 for field_value_element in field_value:
                     result = result or self.contains(
@@ -1063,8 +1063,8 @@ class URDF:
             if joint.mimic.joint in self.actuated_joint_names:
                 mimic_joint_index = self.actuated_joint_names.index(joint.mimic.joint)
                 q = (
-                    self._cfg[mimic_joint_index] * joint.mimic.multiplier
-                    + joint.mimic.offset
+                        self._cfg[mimic_joint_index] * joint.mimic.multiplier
+                        + joint.mimic.offset
                 )
             else:
                 _logger.warning(
@@ -1262,14 +1262,14 @@ class URDF:
         return new_s
 
     def _add_geometries_to_scene(
-        self,
-        s,
-        geometries,
-        link_name,
-        load_geometry,
-        force_mesh,
-        force_single_geometry,
-        skip_materials,
+            self,
+            s,
+            geometries,
+            link_name,
+            load_geometry,
+            force_mesh,
+            force_single_geometry,
+            skip_materials,
     ):
         if force_single_geometry:
             tmp_scene = trimesh.Scene(base_frame=link_name)
@@ -1323,11 +1323,11 @@ class URDF:
             )
 
     def _create_scene(
-        self,
-        use_collision_geometry=False,
-        load_geometry=True,
-        force_mesh=False,
-        force_single_geometry_per_link=False,
+            self,
+            use_collision_geometry=False,
+            load_geometry=True,
+            force_mesh=False,
+            force_single_geometry_per_link=False,
     ):
         s = trimesh.scene.Scene(base_frame=self._base_link)
 
@@ -2000,7 +2000,15 @@ class URDF:
             return np.array([1.0, 0, 0])
 
         xyz = xml_element.get("xyz", "1 0 0")
-        return np.array(list(map(float, xyz.split())))
+        results = []
+        for x in xyz.split():
+            try:
+                x = float(x)
+            except ValueError:
+                x = 0
+            results.append(x)
+        return np.array(results)
+        # return np.array(list(map(float, xyz.split())))
 
     def _write_axis(self, xml_parent, axis):
         if axis is None:

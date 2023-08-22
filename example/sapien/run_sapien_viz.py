@@ -7,26 +7,25 @@
 Original mani-skill2 code without the web visualization
 # Reference: https://haosulab.github.io/ManiSkill2/getting_started/quickstart.html
 
-import gym
-import mani_skill2.envs  # import to register all environments in gym
+import gymnasium as gym
+import mani_skill2.envs
 
-env = gym.make("PickCube-v0", obs_mode="rgbd", control_mode="pd_ee_delta_pose")
+env = gym.make("PickCube-v0", obs_mode="rgbd", control_mode="pd_joint_delta_pos", render_mode="human")
 print("Observation space", env.observation_space)
 print("Action space", env.action_space)
 
-env.seed(0)  # specify a seed for randomness
-obs = env.reset()
-done = False
-while not done:
+obs, _ = env.reset(seed=0) # reset with a seed for randomness
+terminated, truncated = False, False
+while not terminated and not truncated:
     action = env.action_space.sample()
-    obs, reward, done, info = env.step(action)
+    obs, reward, terminated, truncated, info = env.step(action)
     env.render()  # a display is required to render
 env.close()
 """
 
 from typing import Optional
 
-import gym
+import gymnasium as gym
 # import to register all environments in gym
 # noinspection PyUnresolvedReferences
 import mani_skill2.envs  # pylint: disable=unused-import
@@ -51,7 +50,10 @@ def wrapped_setup_viewer(self):
     self._viewer.toggle_camera_lines(False)
 
 
-create_sapien_visualizer(port=6000, host="localhost", keep_default_viewer=True)
+# Set to True if you want to keep both the original viewer and the web visualizer. A display is needed for True
+keep_on_screen_renderer = False
+
+create_sapien_visualizer(port=6000, host="localhost", keep_default_viewer=keep_on_screen_renderer)
 sapien_env.BaseEnv._setup_scene = wrapped_setup_scene
 
 sapien_env.BaseEnv._setup_viewer = wrapped_setup_viewer
@@ -60,20 +62,24 @@ task_names = ["MoveBucket-v1", "PushChair-v1", "OpenCabinetDrawer-v1", "TurnFauc
               "AssemblingKits-v0", "PlugCharger-v0", "PegInsertionSide-v0", "PickClutterYCB-v0", "PickSingleEGAD-v0",
               "StackCube-v0"]
 control_mode = ["base_pd_joint_vel_arm_pd_joint_vel"] * 3 + ["pd_joint_delta_pos"] * 8
+
+# You can try different task_num to visualize different tasks
 task_num = 1
 
 env = gym.make(task_names[task_num], obs_mode="rgbd", control_mode=control_mode[task_num])
 # print("Observation space", env.observation_space)
 print("Action space", env.action_space)
 
-env.seed(1)  # specify a seed for randomness
-
 while True:
-    obs = env.reset()
-    done = False
-    for _ in range(500):
-        action = env.action_space.sample()
-        obs, reward, done, info = env.step(action)
-        # env.render()  # a display is required to render
+    try:
+        obs = env.reset()
+        done = False
+        for _ in range(100):
+            action = env.action_space.sample()
+            obs, reward, terminated, truncated, info = env.step(action)
+            if keep_on_screen_renderer:
+                env.render()  # a display is required to render
+    except KeyboardInterrupt:
+        break
 
 env.close()

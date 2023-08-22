@@ -33,6 +33,11 @@ python run_sapien_viz.py
 
 This will start the simulation, and you should be able to visualize it in your web browser via the provided link.
 
+Please be aware that the errors `[svulkan2] [error] GLFW error: X11: The DISPLAY environment variable is missing`
+and `[svulkan2] [warning] Continue without GLFW.` can be **disregarded** if you are operating on a headless server
+without a screen. Despite SAPIEN triggering an error when the DISPLAY variable is absent, both SAPIEN and the visualizer
+can function normally in such a situation.
+
 ## Limitations
 
 Currently, the rendering of soft body simulation is not support for SAPIEN ManiSkill.
