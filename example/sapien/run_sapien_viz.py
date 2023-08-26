@@ -64,7 +64,7 @@ task_names = ["MoveBucket-v1", "PushChair-v1", "OpenCabinetDrawer-v1", "TurnFauc
 control_mode = ["base_pd_joint_vel_arm_pd_joint_vel"] * 3 + ["pd_joint_delta_pos"] * 8
 
 # You can try different task_num to visualize different tasks
-task_num = 1
+task_num = 7
 
 env = gym.make(task_names[task_num], obs_mode="rgbd", control_mode=control_mode[task_num])
 # print("Observation space", env.observation_space)

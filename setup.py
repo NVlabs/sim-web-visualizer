@@ -4,7 +4,6 @@
 
 """Setup script """
 
-import os
 import re
 from pathlib import Path
 
@@ -20,15 +19,6 @@ with open(_here / name / "__init__.py") as f:
         version = meta_match.group(1)
     else:
         raise RuntimeError("Unable to find __version__ string.")
-
-
-def collect_files(target_dir):
-    file_list = []
-    for (root, dirs, files) in os.walk(target_dir, followlinks=True):
-        for filename in files:
-            file_list.append(os.path.join('..', root, filename))
-    return file_list
-
 
 core_requirements = [
     "numpy<=1.23.0",
@@ -100,7 +90,7 @@ def setup_package():
         license_files=("LICENSE",),
         packages=packages,
         package_data={
-            "sim_web_visualizer": package_files
+            name: package_files
         },
         python_requires='>=3.6,<3.11',
         zip_safe=True,
