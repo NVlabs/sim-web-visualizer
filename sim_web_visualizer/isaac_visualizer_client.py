@@ -72,6 +72,7 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
         # Cache
         self.asset_resource_map: Dict[int, AssetResource] = {}
         self.asset_geom_map = {}
+        self.actor_asset_map = {}
         self.env_map = {}
         self.actor_rigid_body_name_map: Dict[int, List[str]] = {}
 
@@ -206,6 +207,8 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
                     geom_path = f"{robot_tree_path}/{rigid_body_name}"
                     self.viz[geom_path].set_object(geom)
 
+                self.actor_asset_map[f"{num_env}/{num_actor}"] = id(asset)
+
             return actor
 
         self.new_gym.add_method("create_actor", create_actor)
@@ -279,8 +282,15 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
             if arg0 in self.env_map:
                 env_num = self.env_map[arg0]
                 actor_path = f"/Sim/env:{env_num}/actor:{actor_id}"
-                scaling_transform = np.eye(4) * scale
-                self.viz[actor_path].set_transform(scaling_transform)
+                asset_id = self.actor_asset_map[f"{env_num}/{actor_id}"]
+                resource = self.asset_resource_map[asset_id]
+
+                for path, data in resource.visual_data.items():
+                    pose = resource.pose_data[path]
+                    scaling_pose = pose.copy()
+                    scaling_pose[:3] *= scale
+                    print(scaling_pose)
+                    self.viz[f"/{actor_path}/{path}"].set_transform(scaling_pose)
 
         self.new_gym.add_method("set_rigid_body_color", set_rigid_body_color)
         self.new_gym.add_method("set_actor_scale", set_actor_scale)

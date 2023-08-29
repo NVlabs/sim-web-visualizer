@@ -6,7 +6,7 @@ import warnings
 
 from .base_visualizer_client import MeshCatVisualizerBase
 
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 
 try:
     import sapien.core as sapien
