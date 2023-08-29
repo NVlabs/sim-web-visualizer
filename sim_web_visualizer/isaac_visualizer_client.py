@@ -45,8 +45,9 @@ class MimicViewer:
         pass
 
 
-def set_env_pose(num_env: int, num_per_row: int, env_size: np.ndarray, scene_offset: np.ndarray,
-                 viz: meshcat.Visualizer):
+def set_env_pose(
+    num_env: int, num_per_row: int, env_size: np.ndarray, scene_offset: np.ndarray, viz: meshcat.Visualizer
+):
     row = num_env // num_per_row
     column = num_env % num_per_row
     env_origin_xy = env_size[:2] * np.array([column, row])
@@ -56,8 +57,14 @@ def set_env_pose(num_env: int, num_per_row: int, env_size: np.ndarray, scene_off
 
 
 class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
-    def __init__(self, port: Optional[int] = None, host="localhost", keep_default_viewer=True,
-                 scene_offset=np.array([10.0, 10.0]), max_env=4):
+    def __init__(
+        self,
+        port: Optional[int] = None,
+        host="localhost",
+        keep_default_viewer=True,
+        scene_offset=np.array([10.0, 10.0]),
+        max_env=4,
+    ):
         super().__init__(port, host)
         self.keep_default_viewer = keep_default_viewer
 
@@ -67,7 +74,8 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
         self.max_env = max_env
         print(
             f"For efficiency, the sim_web_visualizer will only visualize the first {max_env} environments.\n"
-            f"Modify the max_env parameter if you prefer more or less visualization.")
+            f"Modify the max_env parameter if you prefer more or less visualization."
+        )
 
         # Cache
         self.asset_resource_map: Dict[int, AssetResource] = {}
@@ -119,8 +127,9 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
         return self.new_gym
 
     def _override_load_asset(self):
-        def load_asset(sim: gymapi.Sim, rootpath: str, filename: str,
-                       options: gymapi.AssetOptions = gymapi.AssetOptions()):
+        def load_asset(
+            sim: gymapi.Sim, rootpath: str, filename: str, options: gymapi.AssetOptions = gymapi.AssetOptions()
+        ):
             asset = self.original_gym.load_asset(sim, rootpath, filename, options)
 
             filename = str((Path(rootpath) / filename).resolve())
@@ -128,17 +137,21 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
 
             # Load asset into the memory as asset resource but not forward it into the web viewer
             # The asset will only be loaded into web viewer after a `create_actor` call
-            resource = self.dry_load_asset(filename, collapse_fixed_joints,
-                                           replace_cylinder_with_capsule=options.replace_cylinder_with_capsule,
-                                           use_mesh_materials=options.use_mesh_materials)
+            resource = self.dry_load_asset(
+                filename,
+                collapse_fixed_joints,
+                replace_cylinder_with_capsule=options.replace_cylinder_with_capsule,
+                use_mesh_materials=options.use_mesh_materials,
+            )
             self.asset_resource_map[id(asset)] = resource
             return asset
 
         self.new_gym.add_method("load_asset", load_asset)
 
     def _override_asset_create_fn(self):
-        def create_box(sim: gymapi.Sim, width: float, height: float, depth: float,
-                       options: gymapi.AssetOptions = ...) -> gymapi.Asset:
+        def create_box(
+            sim: gymapi.Sim, width: float, height: float, depth: float, options: gymapi.AssetOptions = ...
+        ) -> gymapi.Asset:
             asset = self.original_gym.create_box(sim, width, height, depth, options)
 
             geom = g.Box([width, height, depth])
@@ -185,8 +198,15 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
         self.new_gym.add_method("end_aggregate", end_aggregate)
 
     def _override_create_actor(self):
-        def create_actor(env: gymapi.Env, asset: gymapi.Asset, pose: gymapi.Transform, name: str = "",
-                         collision_group: int = 0, collision_filter: int = 0, seg_id: int = 0) -> int:
+        def create_actor(
+            env: gymapi.Env,
+            asset: gymapi.Asset,
+            pose: gymapi.Transform,
+            name: str = "",
+            collision_group: int = 0,
+            collision_filter: int = 0,
+            seg_id: int = 0,
+        ) -> int:
             actor = self.original_gym.create_actor(env, asset, pose, name, collision_group, collision_filter, seg_id)
 
             if env in self.env_map:
@@ -243,8 +263,9 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
             scene_pose[:3, :3] *= grid_scale
             self.viz["/Grid"].set_transform(scene_pose)
 
-        def add_triangle_mesh(sim: gymapi.Sim, vertices: np.ndarray, triangles: np.ndarray,
-                              params: gymapi.TriangleMeshParams):
+        def add_triangle_mesh(
+            sim: gymapi.Sim, vertices: np.ndarray, triangles: np.ndarray, params: gymapi.TriangleMeshParams
+        ):
             self.original_gym.add_triangle_mesh(sim, vertices, triangles, params)
 
             # Create meshcat mesh
@@ -303,20 +324,23 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
             else:
                 return MimicViewer()
 
-        def subscribe_viewer_keyboard_event(viewer: Union[MimicViewer, gymapi.Viewer],
-                                            keyboard_input: gymapi.KeyboardInput, event_name: str):
+        def subscribe_viewer_keyboard_event(
+            viewer: Union[MimicViewer, gymapi.Viewer], keyboard_input: gymapi.KeyboardInput, event_name: str
+        ):
             if self.keep_default_viewer:
                 self.original_gym.subscribe_viewer_keyboard_event(viewer, keyboard_input, event_name)
             self.viewer_keyboard_event[keyboard_input.name] = event_name
 
-        def subscribe_viewer_mouse_event(viewer: Union[MimicViewer, gymapi.Viewer], mouse_input: gymapi.MouseInput,
-                                         event_name: str):
+        def subscribe_viewer_mouse_event(
+            viewer: Union[MimicViewer, gymapi.Viewer], mouse_input: gymapi.MouseInput, event_name: str
+        ):
             if self.keep_default_viewer:
                 self.original_gym.subscribe_viewer_mouse_event(viewer, mouse_input, event_name)
             self.viewer_mouse_event[mouse_input.name] = event_name
 
-        def viewer_camera_look_at(viewer: Union[MimicViewer, gymapi.Viewer], env: gymapi.Env, pos: gymapi.Vec3,
-                                  target: gymapi.Vec3):
+        def viewer_camera_look_at(
+            viewer: Union[MimicViewer, gymapi.Viewer], env: gymapi.Env, pos: gymapi.Vec3, target: gymapi.Vec3
+        ):
             if self.keep_default_viewer:
                 self.original_gym.viewer_camera_look_at(viewer, env, pos, target)
             # TODO:
@@ -364,7 +388,7 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
 
             if USE_GPU_PIPELINE:
                 self.original_gym.refresh_rigid_body_state_tensor(self.sim)
-                rigid_body_state = self.rigid_body_state_tensor[:len(self.env_map), :, :7].cpu().numpy()
+                rigid_body_state = self.rigid_body_state_tensor[: len(self.env_map), :, :7].cpu().numpy()
                 pos = rigid_body_state[:, :, :3]
                 quat = np.concatenate([rigid_body_state[..., 6:7], rigid_body_state[..., 3:6]], axis=-1)  # xyzw -> wxyz
                 qs = quaternion.as_quat_array(quat)
@@ -383,7 +407,8 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
                         rigid_body_count = len(rigid_body_name)
                         for rigid_body_idx in range(body_count, body_count + rigid_body_count):
                             actor_viz[rigid_body_name[rigid_body_idx - body_count]].set_transform(
-                                pose[i, rigid_body_idx])
+                                pose[i, rigid_body_idx]
+                            )
                         body_count += rigid_body_count
             else:
                 for i in range(len(self.env_map)):
@@ -396,7 +421,7 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
                         rigid_body_count = len(rigid_body_name)
                         r = actor_states["pose"]["r"]
                         p = actor_states["pose"]["p"]
-                        wxyz = structured_to_unstructured(r[['w', 'x', 'y', 'z']])
+                        wxyz = structured_to_unstructured(r[["w", "x", "y", "z"]])
                         qs = quaternion.as_quat_array(wxyz)
 
                         rot = quaternion.as_rotation_matrix(qs)

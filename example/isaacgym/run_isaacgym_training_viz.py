@@ -12,7 +12,7 @@ from datetime import datetime
 import isaacgym
 from sim_web_visualizer.isaac_visualizer_client import create_isaac_visualizer, bind_visualizer_to_gym, set_gpu_pipeline
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'IsaacGymEnvs'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "IsaacGymEnvs"))
 
 import hydra
 
@@ -32,8 +32,9 @@ from isaacgymenvs.tasks.base import vec_task
 from isaacgym import gymapi
 
 
-def wrapped_create_sim(self: vec_task.VecTask, compute_device: int, graphics_device: int, physics_engine,
-                       sim_params: gymapi.SimParams):
+def wrapped_create_sim(
+    self: vec_task.VecTask, compute_device: int, graphics_device: int, physics_engine, sim_params: gymapi.SimParams
+):
     sim = vec_task._create_sim_once(self.gym, compute_device, graphics_device, physics_engine, sim_params)
     if sim is None:
         print("*** Failed to create sim")
@@ -62,27 +63,28 @@ def preprocess_train_config(cfg, config_dict):
     variable interpolations in each config.
     """
 
-    train_cfg = config_dict['params']['config']
+    train_cfg = config_dict["params"]["config"]
 
-    train_cfg['device'] = cfg.rl_device
+    train_cfg["device"] = cfg.rl_device
 
-    train_cfg['population_based_training'] = cfg.pbt.enabled
-    train_cfg['pbt_idx'] = cfg.pbt.policy_idx if cfg.pbt.enabled else None
+    train_cfg["population_based_training"] = cfg.pbt.enabled
+    train_cfg["pbt_idx"] = cfg.pbt.policy_idx if cfg.pbt.enabled else None
 
-    train_cfg['full_experiment_name'] = cfg.get('full_experiment_name')
+    train_cfg["full_experiment_name"] = cfg.get("full_experiment_name")
 
-    print(f'Using rl_device: {cfg.rl_device}')
-    print(f'Using sim_device: {cfg.sim_device}')
+    print(f"Using rl_device: {cfg.rl_device}")
+    print(f"Using sim_device: {cfg.sim_device}")
     print(train_cfg)
 
     try:
-        model_size_multiplier = config_dict['params']['network']['mlp']['model_size_multiplier']
+        model_size_multiplier = config_dict["params"]["network"]["mlp"]["model_size_multiplier"]
         if model_size_multiplier != 1:
-            units = config_dict['params']['network']['mlp']['units']
+            units = config_dict["params"]["network"]["mlp"]["units"]
             for i, u in enumerate(units):
                 units[i] = u * model_size_multiplier
             print(
-                f'Modified MLP units by x{model_size_multiplier} to {config_dict["params"]["network"]["mlp"]["units"]}')
+                f'Modified MLP units by x{model_size_multiplier} to {config_dict["params"]["network"]["mlp"]["units"]}'
+            )
     except KeyError:
         pass
 
@@ -149,31 +151,39 @@ def launch_rlg_hydra(cfg: DictConfig):
             )
         return envs
 
-    env_configurations.register('rlgpu', {
-        'vecenv_type': 'RLGPU',
-        'env_creator': lambda **kwargs: create_isaacgym_env(**kwargs),
-    })
+    env_configurations.register(
+        "rlgpu",
+        {
+            "vecenv_type": "RLGPU",
+            "env_creator": lambda **kwargs: create_isaacgym_env(**kwargs),
+        },
+    )
 
     ige_env_cls = isaacgym_task_map[cfg.task_name]
-    dict_cls = ige_env_cls.dict_obs_cls if hasattr(ige_env_cls, 'dict_obs_cls') and ige_env_cls.dict_obs_cls else False
+    dict_cls = ige_env_cls.dict_obs_cls if hasattr(ige_env_cls, "dict_obs_cls") and ige_env_cls.dict_obs_cls else False
 
     if dict_cls:
-
         obs_spec = {}
         actor_net_cfg = cfg.train.params.network
-        obs_spec['obs'] = {'names': list(actor_net_cfg.inputs.keys()),
-                           'concat': not actor_net_cfg.name == "complex_net", 'space_name': 'observation_space'}
+        obs_spec["obs"] = {
+            "names": list(actor_net_cfg.inputs.keys()),
+            "concat": not actor_net_cfg.name == "complex_net",
+            "space_name": "observation_space",
+        }
         if "central_value_config" in cfg.train.params.config:
             critic_net_cfg = cfg.train.params.config.central_value_config.network
-            obs_spec['states'] = {'names': list(critic_net_cfg.inputs.keys()),
-                                  'concat': not critic_net_cfg.name == "complex_net", 'space_name': 'state_space'}
+            obs_spec["states"] = {
+                "names": list(critic_net_cfg.inputs.keys()),
+                "concat": not critic_net_cfg.name == "complex_net",
+                "space_name": "state_space",
+            }
 
-        vecenv.register('RLGPU',
-                        lambda config_name, num_actors, **kwargs: ComplexObsRLGPUEnv(config_name, num_actors, obs_spec,
-                                                                                     **kwargs))
+        vecenv.register(
+            "RLGPU",
+            lambda config_name, num_actors, **kwargs: ComplexObsRLGPUEnv(config_name, num_actors, obs_spec, **kwargs),
+        )
     else:
-
-        vecenv.register('RLGPU', lambda config_name, num_actors, **kwargs: RLGPUEnv(config_name, num_actors, **kwargs))
+        vecenv.register("RLGPU", lambda config_name, num_actors, **kwargs: RLGPUEnv(config_name, num_actors, **kwargs))
 
     rlg_config_dict = omegaconf_to_dict(cfg.train)
     rlg_config_dict = preprocess_train_config(cfg, rlg_config_dict)
@@ -194,11 +204,12 @@ def launch_rlg_hydra(cfg: DictConfig):
     # register new AMP network builder and agent
     def build_runner(algo_observer):
         runner = Runner(algo_observer)
-        runner.algo_factory.register_builder('amp_continuous', lambda **kwargs: amp_continuous.AMPAgent(**kwargs))
-        runner.player_factory.register_builder('amp_continuous',
-                                               lambda **kwargs: amp_players.AMPPlayerContinuous(**kwargs))
-        model_builder.register_model('continuous_amp', lambda network, **kwargs: amp_models.ModelAMPContinuous(network))
-        model_builder.register_network('amp', lambda **kwargs: amp_network_builder.AMPBuilder())
+        runner.algo_factory.register_builder("amp_continuous", lambda **kwargs: amp_continuous.AMPAgent(**kwargs))
+        runner.player_factory.register_builder(
+            "amp_continuous", lambda **kwargs: amp_players.AMPPlayerContinuous(**kwargs)
+        )
+        model_builder.register_model("continuous_amp", lambda network, **kwargs: amp_models.ModelAMPContinuous(network))
+        model_builder.register_network("amp", lambda **kwargs: amp_network_builder.AMPBuilder())
 
         return runner
 
@@ -210,19 +221,22 @@ def launch_rlg_hydra(cfg: DictConfig):
 
     # dump config dict
     if not cfg.test:
-        experiment_dir = os.path.join('runs', cfg.train.params.config.name +
-                                      '_{date:%d-%H-%M-%S}'.format(date=datetime.now()))
+        experiment_dir = os.path.join(
+            "runs", cfg.train.params.config.name + "_{date:%d-%H-%M-%S}".format(date=datetime.now())
+        )
 
         os.makedirs(experiment_dir, exist_ok=True)
-        with open(os.path.join(experiment_dir, 'config.yaml'), 'w') as f:
+        with open(os.path.join(experiment_dir, "config.yaml"), "w") as f:
             f.write(OmegaConf.to_yaml(cfg))
 
-    runner.run({
-        'train': not cfg.test,
-        'play': cfg.test,
-        'checkpoint': cfg.checkpoint,
-        'sigma': cfg.sigma if cfg.sigma != '' else None
-    })
+    runner.run(
+        {
+            "train": not cfg.test,
+            "play": cfg.test,
+            "checkpoint": cfg.checkpoint,
+            "sigma": cfg.sigma if cfg.sigma != "" else None,
+        }
+    )
 
 
 if __name__ == "__main__":

@@ -28,7 +28,8 @@ core_requirements = [
     "anytree",
     "trimesh",
     "pycollada",
-    f"meshcat @ file://localhost{str(_here.absolute())}/3rd_party/meshcat-python", "mujoco>=2.2.0",
+    "mujoco>=2.2.0",
+    f"meshcat @ file://localhost{str(_here.absolute())}/3rd_party/meshcat-python",
 ]
 
 isaac_requirements = [
@@ -86,13 +87,11 @@ def setup_package():
         long_description=readme,
         long_description_content_type="text/markdown",
         url=url,
-        license='MIT',
+        license="MIT",
         license_files=("LICENSE",),
         packages=packages,
-        package_data={
-            name: package_files
-        },
-        python_requires='>=3.6,<3.11',
+        package_data={name: package_files},
+        python_requires=">=3.6,<3.11",
         zip_safe=True,
         install_requires=core_requirements,
         extras_require={

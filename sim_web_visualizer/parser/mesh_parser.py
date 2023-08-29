@@ -22,18 +22,22 @@ def load_mesh(mesh_file: str, scale=np.array([1, 1, 1]), mesh: Optional[trimesh.
     # Reference: https://github.com/petrikvladimir/RoboMeshCat/blob/main/src/robomeshcat/object.py
     if mesh is None:
         try:
-            mesh: trimesh.Trimesh = trimesh.load(mesh_file, force='mesh')
+            mesh: trimesh.Trimesh = trimesh.load(mesh_file, force="mesh")
         except ValueError as e:
-            if str(e) == 'File type: dae not supported':
-                print('To load DAE meshes you need to install pycollada package via '
-                      '`conda install -c conda-forge pycollada`'
-                      ' or `pip install pycollada`')
+            if str(e) == "File type: dae not supported":
+                print(
+                    "To load DAE meshes you need to install pycollada package via "
+                    "`conda install -c conda-forge pycollada`"
+                    " or `pip install pycollada`"
+                )
             raise
         except Exception as e:
-            print(f'Loading of a mesh failed with message: \'{e}\'. '
-                  f'Trying to load with with \'ignore_broken\' but consider to fix the mesh located here:'
-                  f' \'{mesh_file}\'.')
-            mesh: trimesh.Trimesh = trimesh.load(mesh_file, force='mesh', ignore_broken=True)
+            print(
+                f"Loading of a mesh failed with message: '{e}'. "
+                f"Trying to load with with 'ignore_broken' but consider to fix the mesh located here:"
+                f" '{mesh_file}'."
+            )
+            mesh: trimesh.Trimesh = trimesh.load(mesh_file, force="mesh", ignore_broken=True)
 
     mesh.apply_scale(scale)
     try:
@@ -98,4 +102,4 @@ def get_trimesh_geometry_material(geom: trimesh.Trimesh, default_rgba: Optional[
 
 
 def rgb_to_hex(rgb):
-    return '0x{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+    return "0x{:02x}{:02x}{:02x}".format(rgb[0], rgb[1], rgb[2])

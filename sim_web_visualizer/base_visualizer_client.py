@@ -18,7 +18,7 @@ from sim_web_visualizer.parser.urdf import load_urdf_with_yourdfpy
 
 def rgb_to_hex(rgb):
     rgb = (rgb * 255).astype(np.uint8)
-    return '0x{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
+    return "0x{:02x}{:02x}{:02x}".format(rgb[0], rgb[1], rgb[2])
 
 
 class MeshCatVisualizerBase:
@@ -46,12 +46,16 @@ class MeshCatVisualizerBase:
         self.viz["/Sim"].delete()
 
     @staticmethod
-    def dry_load_asset(filename, collapse_fixed_joints: bool,
-                       replace_cylinder_with_capsule=False, use_mesh_materials=False) -> AssetResource:
+    def dry_load_asset(
+        filename, collapse_fixed_joints: bool, replace_cylinder_with_capsule=False, use_mesh_materials=False
+    ) -> AssetResource:
         if filename.endswith(".urdf"):
-            resource = load_urdf_with_yourdfpy(filename, collapse_fixed_joints,
-                                               replace_cylinder_with_capsule=replace_cylinder_with_capsule,
-                                               use_mesh_materials=use_mesh_materials)
+            resource = load_urdf_with_yourdfpy(
+                filename,
+                collapse_fixed_joints,
+                replace_cylinder_with_capsule=replace_cylinder_with_capsule,
+                use_mesh_materials=use_mesh_materials,
+            )
         elif filename.endswith(".xml"):
             resource = load_mjcf_with_dmc(filename, collapse_fixed_joints)
         else:
@@ -141,8 +145,12 @@ class MeshCatVisualizerBase:
         For this to work, it should be the very last command in the given jupyter
         cell.
         """
-        return HTML("""
+        return HTML(
+            """
             <div style="height: {height}px; width: 100%; overflow-x: auto; overflow-y: hidden; resize: both">
             <iframe src="{url}" style="width: 100%; height: 100%; border: none"></iframe>
             </div>
-            """.format(url=url, height=height))
+            """.format(
+                url=url, height=height
+            )
+        )

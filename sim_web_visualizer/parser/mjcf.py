@@ -193,6 +193,7 @@ def load_mjcf_with_dmc(filename: str, collapse_fixed_joints: bool) -> AssetResou
 
 def load_mjcf_into_viewer_kinpy(filename: str, viewer: Visualizer, collapse_fixed_joints: bool, dry_run=False):
     import kinpy as kp
+
     chain = kp.build_chain_from_mjcf(open(filename).read())
 
     # Dry run data for faster loading

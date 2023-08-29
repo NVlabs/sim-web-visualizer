@@ -13,8 +13,9 @@ import sim_web_visualizer.parser.yourdfpy as urdf
 from sim_web_visualizer.parser.mesh_parser import load_mesh, get_trimesh_geometry_material, rgb_to_hex, AssetResource
 
 
-def load_urdf_with_yourdfpy(urdf_path: str, collapse_fixed_joints: bool,
-                            replace_cylinder_with_capsule=False, use_mesh_materials=False) -> AssetResource:
+def load_urdf_with_yourdfpy(
+    urdf_path: str, collapse_fixed_joints: bool, replace_cylinder_with_capsule=False, use_mesh_materials=False
+) -> AssetResource:
     robot = urdf.URDF.load(urdf_path)
     material_map = robot._material_map if not use_mesh_materials else {}
 
@@ -104,7 +105,7 @@ def load_urdf_with_yourdfpy(urdf_path: str, collapse_fixed_joints: bool,
                     mats = [get_trimesh_geometry_material(mesh, urdf_rgba)]
                     poses.append(visual_pose)
                 elif mesh_filename.lower().endswith("glb"):
-                    scene = trimesh.load(mesh_filename, ignore_broken=True, force='scene')
+                    scene = trimesh.load(mesh_filename, ignore_broken=True, force="scene")
                     geom_name_map = {scene.graph[node_name][1]: node_name for node_name in scene.graph.nodes}
                     for name, scene_geometry in scene.geometry.items():
                         mesh = scene_geometry.visual.mesh

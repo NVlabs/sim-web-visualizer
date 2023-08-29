@@ -27,127 +27,115 @@ def create_car(
 
     # car body (root of the articulation)
     body: sapien.LinkBuilder = builder.create_link_builder()  # LinkBuilder is similar to ActorBuilder
-    body.set_name('body')
+    body.set_name("body")
     body.add_box_collision(half_size=body_half_size, density=density)
     body.add_box_visual(half_size=body_half_size, color=[0.8, 0.6, 0.4])
 
     # front steering shaft
     front_shaft = builder.create_link_builder(body)
-    front_shaft.set_name('front_shaft')
-    front_shaft.set_joint_name('front_shaft_joint')
+    front_shaft.set_name("front_shaft")
+    front_shaft.set_joint_name("front_shaft_joint")
     front_shaft.add_box_collision(half_size=shaft_half_size, density=density)
     front_shaft.add_box_visual(half_size=shaft_half_size, color=[0.6, 0.4, 0.8])
     # The x-axis of the joint frame is the rotation axis of a revolute joint.
     front_shaft.set_joint_properties(
-        'revolute',
+        "revolute",
         limits=[[-np.deg2rad(15), np.deg2rad(15)]],  # joint limits (for each DoF)
         # pose_in_parent refers to the relative transformation from the parent frame to the joint frame
         pose_in_parent=sapien.Pose(
-            p=[(body_half_size[0] - tire_radius), 0, -body_half_size[2]],
-            q=euler2quat(0, -np.deg2rad(90), 0)
+            p=[(body_half_size[0] - tire_radius), 0, -body_half_size[2]], q=euler2quat(0, -np.deg2rad(90), 0)
         ),
         # pose_in_child refers to the relative transformation from the child frame to the joint frame
-        pose_in_child=sapien.Pose(
-            p=[0.0, 0.0, shaft_half_size[2]],
-            q=euler2quat(0, -np.deg2rad(90), 0)
-        ),
+        pose_in_child=sapien.Pose(p=[0.0, 0.0, shaft_half_size[2]], q=euler2quat(0, -np.deg2rad(90), 0)),
         friction=joint_friction,
         damping=joint_damping,
     )
 
     # back steering shaft (not drivable)
     back_shaft = builder.create_link_builder(body)
-    back_shaft.set_name('back_shaft')
-    back_shaft.set_joint_name('back_shaft_joint')
+    back_shaft.set_name("back_shaft")
+    back_shaft.set_joint_name("back_shaft_joint")
     back_shaft.add_box_collision(half_size=shaft_half_size, density=density)
     back_shaft.add_box_visual(half_size=shaft_half_size, color=[0.6, 0.4, 0.8])
     back_shaft.set_joint_properties(
-        'fixed',
+        "fixed",
         limits=[],
         pose_in_parent=sapien.Pose(
-            p=[-(body_half_size[0] - tire_radius), 0, -body_half_size[2]],
-            q=euler2quat(0, -np.deg2rad(90), 0)
+            p=[-(body_half_size[0] - tire_radius), 0, -body_half_size[2]], q=euler2quat(0, -np.deg2rad(90), 0)
         ),
-        pose_in_child=sapien.Pose(
-            p=[0.0, 0.0, shaft_half_size[2]],
-            q=euler2quat(0, -np.deg2rad(90), 0)
-        ),
+        pose_in_child=sapien.Pose(p=[0.0, 0.0, shaft_half_size[2]], q=euler2quat(0, -np.deg2rad(90), 0)),
         friction=joint_friction,
         damping=joint_damping,
     )
 
     # front wheels
     front_wheels = builder.create_link_builder(front_shaft)
-    front_wheels.set_name('front_wheels')
-    front_wheels.set_joint_name('front_gear')
+    front_wheels.set_name("front_wheels")
+    front_wheels.set_joint_name("front_gear")
     # rack
     front_wheels.add_box_collision(half_size=rack_half_size, density=density)
     front_wheels.add_box_visual(half_size=rack_half_size, color=[0.8, 0.4, 0.6])
     # left wheel
-    front_wheels.add_sphere_collision(pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]),
-                                      radius=tire_radius, density=density)
-    front_wheels.add_sphere_visual(pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]),
-                                   radius=tire_radius,
-                                   color=[0.4, 0.6, 0.8])
+    front_wheels.add_sphere_collision(
+        pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]), radius=tire_radius, density=density
+    )
+    front_wheels.add_sphere_visual(
+        pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]), radius=tire_radius, color=[0.4, 0.6, 0.8]
+    )
     # right wheel
-    front_wheels.add_sphere_collision(pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]),
-                                      radius=tire_radius, density=density)
-    front_wheels.add_sphere_visual(pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]),
-                                   radius=tire_radius,
-                                   color=[0.4, 0.6, 0.8])
+    front_wheels.add_sphere_collision(
+        pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]), radius=tire_radius, density=density
+    )
+    front_wheels.add_sphere_visual(
+        pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]), radius=tire_radius, color=[0.4, 0.6, 0.8]
+    )
     # gear
     front_wheels.set_joint_properties(
-        'revolute',
+        "revolute",
         limits=[[-np.inf, np.inf]],
         pose_in_parent=sapien.Pose(
-            p=[0.0, 0, -(shaft_half_size[2] + rack_half_size[2])],
-            q=euler2quat(0, 0, np.deg2rad(90))
+            p=[0.0, 0, -(shaft_half_size[2] + rack_half_size[2])], q=euler2quat(0, 0, np.deg2rad(90))
         ),
-        pose_in_child=sapien.Pose(
-            p=[0.0, 0.0, 0.0],
-            q=euler2quat(0, 0, np.deg2rad(90))
-        ),
+        pose_in_child=sapien.Pose(p=[0.0, 0.0, 0.0], q=euler2quat(0, 0, np.deg2rad(90))),
         friction=joint_friction,
         damping=joint_damping,
     )
 
     # back wheels
     back_wheels = builder.create_link_builder(back_shaft)
-    back_wheels.set_name('back_wheels')
-    back_wheels.set_joint_name('back_gear')
+    back_wheels.set_name("back_wheels")
+    back_wheels.set_joint_name("back_gear")
     # rack
     back_wheels.add_box_collision(half_size=rack_half_size, density=density)
     back_wheels.add_box_visual(half_size=rack_half_size, color=[0.8, 0.4, 0.6])
     # left wheel
-    back_wheels.add_sphere_collision(pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]),
-                                     radius=tire_radius, density=density)
-    back_wheels.add_sphere_visual(pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]),
-                                  radius=tire_radius,
-                                  color=[0.4, 0.6, 0.8])
+    back_wheels.add_sphere_collision(
+        pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]), radius=tire_radius, density=density
+    )
+    back_wheels.add_sphere_visual(
+        pose=sapien.Pose(p=[0.0, rack_half_size[1] + tire_radius, 0.0]), radius=tire_radius, color=[0.4, 0.6, 0.8]
+    )
     # right wheel
-    back_wheels.add_sphere_collision(pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]),
-                                     radius=tire_radius, density=density)
-    back_wheels.add_sphere_visual(pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]),
-                                  radius=tire_radius,
-                                  color=[0.4, 0.6, 0.8])
+    back_wheels.add_sphere_collision(
+        pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]), radius=tire_radius, density=density
+    )
+    back_wheels.add_sphere_visual(
+        pose=sapien.Pose(p=[0.0, -(rack_half_size[1] + tire_radius), 0.0]), radius=tire_radius, color=[0.4, 0.6, 0.8]
+    )
     # gear
     back_wheels.set_joint_properties(
-        'revolute',
+        "revolute",
         limits=[[-np.inf, np.inf]],
         pose_in_parent=sapien.Pose(
-            p=[0.0, 0, -(shaft_half_size[2] + rack_half_size[2])],
-            q=euler2quat(0, 0, np.deg2rad(90))
+            p=[0.0, 0, -(shaft_half_size[2] + rack_half_size[2])], q=euler2quat(0, 0, np.deg2rad(90))
         ),
-        pose_in_child=sapien.Pose(
-            p=[0.0, 0.0, 0.0],
-            q=euler2quat(0, 0, np.deg2rad(90))
-        ),
+        pose_in_child=sapien.Pose(p=[0.0, 0.0, 0.0], q=euler2quat(0, 0, np.deg2rad(90))),
         friction=joint_friction,
         damping=joint_damping,
     )
 
     car = builder.build()
-    car.set_name('car')
+    car.set_name("car")
     return car
 
 
@@ -185,13 +173,13 @@ def main(filename):
     # Load from actor build
     actor_builder = scene.create_actor_builder()
     actor_builder.add_box_collision(half_size=[0.5, 0.5, 0.5])
-    actor_builder.add_box_visual(half_size=[0.5, 0.5, 0.5], color=[1., 0., 0.])
-    box = actor_builder.build(name='box')  # Add a box
+    actor_builder.add_box_visual(half_size=[0.5, 0.5, 0.5], color=[1.0, 0.0, 0.0])
+    box = actor_builder.build(name="box")  # Add a box
     box.set_pose(sapien.Pose(p=[-1, 0, 0.5]))
 
     # Load from articulation builder
     car = create_car(scene)
-    car.set_pose(sapien.Pose(p=[0., 2., 0.34]))
+    car.set_pose(sapien.Pose(p=[0.0, 2.0, 0.34]))
 
     print("Press q to quit......")
 
@@ -205,8 +193,6 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "filename", type=str, help="Filename of the urdf you would like load."
-    )
+    parser.add_argument("filename", type=str, help="Filename of the urdf you would like load.")
     args = parser.parse_args()
     main(args.filename)

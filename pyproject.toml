@@ -8,4 +8,4 @@ skip_gitignore = true
 single_line_exclusions = ["typing"]
 
 [tool.black]
-line_length = 88     # default
+line_length = 120

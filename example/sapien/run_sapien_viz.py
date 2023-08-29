@@ -26,6 +26,7 @@ env.close()
 from typing import Optional
 
 import gymnasium as gym
+
 # import to register all environments in gym
 # noinspection PyUnresolvedReferences
 import mani_skill2.envs  # pylint: disable=unused-import
@@ -58,9 +59,19 @@ sapien_env.BaseEnv._setup_scene = wrapped_setup_scene
 
 sapien_env.BaseEnv._setup_viewer = wrapped_setup_viewer
 
-task_names = ["MoveBucket-v1", "PushChair-v1", "OpenCabinetDrawer-v1", "TurnFaucet-v0", "PandaAvoidObstacles-v0",
-              "AssemblingKits-v0", "PlugCharger-v0", "PegInsertionSide-v0", "PickClutterYCB-v0", "PickSingleEGAD-v0",
-              "StackCube-v0"]
+task_names = [
+    "MoveBucket-v1",
+    "PushChair-v1",
+    "OpenCabinetDrawer-v1",
+    "TurnFaucet-v0",
+    "PandaAvoidObstacles-v0",
+    "AssemblingKits-v0",
+    "PlugCharger-v0",
+    "PegInsertionSide-v0",
+    "PickClutterYCB-v0",
+    "PickSingleEGAD-v0",
+    "StackCube-v0",
+]
 control_mode = ["base_pd_joint_vel_arm_pd_joint_vel"] * 3 + ["pd_joint_delta_pos"] * 8
 
 # You can try different task_num to visualize different tasks

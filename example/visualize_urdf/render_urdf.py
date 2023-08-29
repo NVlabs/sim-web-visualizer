@@ -38,7 +38,7 @@ def main():
                 pose = robot.get_link_global_transform(link_name)
                 urdf_viz[link_name].set_transform(pose)
     except KeyboardInterrupt:
-        print('Keyboard interrupt, shutting down.\n')
+        print("Keyboard interrupt, shutting down.\n")
 
 
 if __name__ == "__main__":

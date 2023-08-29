@@ -12,13 +12,14 @@ from isaacgym import gymapi
 
 from sim_web_visualizer.isaac_visualizer_client import create_isaac_visualizer, bind_visualizer_to_gym, set_gpu_pipeline
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'IsaacGymEnvs'))
+sys.path.append(os.path.join(os.path.dirname(__file__), "IsaacGymEnvs"))
 import isaacgymenvs
 from isaacgymenvs.tasks.base import vec_task
 
 
-def wrapped_create_sim(self: vec_task.VecTask, compute_device: int, graphics_device: int, physics_engine,
-                       sim_params: gymapi.SimParams):
+def wrapped_create_sim(
+    self: vec_task.VecTask, compute_device: int, graphics_device: int, physics_engine, sim_params: gymapi.SimParams
+):
     sim = vec_task._create_sim_once(self.gym, compute_device, graphics_device, physics_engine, sim_params)
     if sim is None:
         print("*** Failed to create sim")
@@ -55,8 +56,6 @@ try:
     while True:
         envs.reset()
         for _ in range(500):
-            obs, reward, done, info = envs.step(
-                torch.rand((num_env,) + envs.action_space.shape, device=device)
-            )
+            obs, reward, done, info = envs.step(torch.rand((num_env,) + envs.action_space.shape, device=device))
 except KeyboardInterrupt:
-    print('Keyboard interrupt, shutting down.\n')
+    print("Keyboard interrupt, shutting down.\n")

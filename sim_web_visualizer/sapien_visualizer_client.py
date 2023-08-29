@@ -57,8 +57,9 @@ class MimicEntity:
             super().__setattr__(key, value)
 
 
-def visual2geom_mat(visual: sapien.VisualRecord, pose: np.ndarray) -> Tuple[
-    List[g.Geometry], List[g.Material], List[np.ndarray]]:
+def visual2geom_mat(
+    visual: sapien.VisualRecord, pose: np.ndarray
+) -> Tuple[List[g.Geometry], List[g.Material], List[np.ndarray]]:
     scale = visual.scale.astype(float)
     material = visual.material
     if visual.type == "Box":
@@ -92,19 +93,22 @@ def visual2geom_mat(visual: sapien.VisualRecord, pose: np.ndarray) -> Tuple[
 
     if visual.type != "File":
         rgb = np.clip(np.array(material.base_color[:3]) * 255, 0, 255).astype(np.uint8)
-        mats = [g.MeshStandardMaterial(
-            color=rgb_to_hex(rgb),
-            opacity=float(material.base_color[3]),
-            roughness=float(material.roughness),
-            metalness=float(material.metallic),
-        )]
+        mats = [
+            g.MeshStandardMaterial(
+                color=rgb_to_hex(rgb),
+                opacity=float(material.base_color[3]),
+                roughness=float(material.roughness),
+                metalness=float(material.metallic),
+            )
+        ]
         poses = [pose]
 
     return geoms, mats, poses
 
 
-def add_visual_to_viz(viz: meshcat.Visualizer, visual: sapien.VisualRecord, geom_root_path: str,
-                      geom_start_index: int) -> int:
+def add_visual_to_viz(
+    viz: meshcat.Visualizer, visual: sapien.VisualRecord, geom_root_path: str, geom_start_index: int
+) -> int:
     pose = visual.pose.to_transformation_matrix().astype(float)
     geoms, mats, poses = visual2geom_mat(visual, pose)
 
@@ -172,7 +176,7 @@ class MeshCatVisualizerSapien(MeshCatVisualizerBase):
                 config = {}
             robot = mimic.entity.load_from_string(urdf_string, srdf_string, config)
 
-            temp_urdf = tempfile.NamedTemporaryFile(suffix='.urdf')
+            temp_urdf = tempfile.NamedTemporaryFile(suffix=".urdf")
             temp_urdf.write(urdf_string)
             add_urdf_visual(robot, temp_urdf.name, mimic.scale)
 
@@ -204,7 +208,6 @@ class MeshCatVisualizerSapien(MeshCatVisualizerBase):
         mimic.add_method("load_file_as_articulation_builder", load_file_as_articulation_builder)
 
     def _override_actor_builder(self, mimic: MimicEntity):
-
         def add_actor_visual(act: sapien.ActorBase):
             actor_tree_path = f"/Sim/actor:{act.get_id()}"
             geom_num = 0
@@ -212,19 +215,19 @@ class MeshCatVisualizerSapien(MeshCatVisualizerBase):
                 geom_num = add_visual_to_viz(self.viz, visual, actor_tree_path, geom_num)
 
         # Mimic class of sapien.ActorBuilder
-        def build(name: str = '') -> sapien.Actor:
+        def build(name: str = "") -> sapien.Actor:
             actor = mimic.entity.build(name)
             add_actor_visual(actor)
 
             return actor
 
-        def build_static(name: str = '') -> sapien.ActorStatic:
+        def build_static(name: str = "") -> sapien.ActorStatic:
             actor = mimic.entity.build_static(name)
             add_actor_visual(actor)
 
             return actor
 
-        def build_kinematic(name: str = '') -> sapien.Actor:
+        def build_kinematic(name: str = "") -> sapien.Actor:
             actor = mimic.entity.build_kinematic(name)
             add_actor_visual(actor)
 
@@ -290,9 +293,13 @@ class MeshCatVisualizerSapien(MeshCatVisualizerBase):
         self.new_scene.add_method("create_articulation_builder", create_articulation_builder)
 
     def _scene_override_misc_fn(self):
-        def add_ground(altitude: float, render: bool = True, material: sapien.PhysicalMaterial = None,
-                       render_material: sapien.RenderMaterial = None,
-                       render_half_size: np.ndarray = np.array([10., 10.], dtype=np.float32)) -> sapien.ActorStatic:
+        def add_ground(
+            altitude: float,
+            render: bool = True,
+            material: sapien.PhysicalMaterial = None,
+            render_material: sapien.RenderMaterial = None,
+            render_half_size: np.ndarray = np.array([10.0, 10.0], dtype=np.float32),
+        ) -> sapien.ActorStatic:
             ground = self.original_scene.add_ground(altitude, render, material, render_material, render_half_size)
             if render:
                 plane_size = render_half_size * 2
