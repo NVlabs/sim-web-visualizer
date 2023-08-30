@@ -227,7 +227,7 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
                     geom_path = f"{robot_tree_path}/{rigid_body_name}"
                     self.viz[geom_path].set_object(geom)
 
-                self.actor_asset_map[f"{num_env}/{num_actor}"] = id(asset)
+                self.actor_asset_map[f"{num_env}/{num_actor-1}"] = id(asset)
 
             return actor
 
@@ -310,7 +310,6 @@ class MeshCatVisualizerIsaac(MeshCatVisualizerBase):
                     pose = resource.pose_data[path]
                     scaling_pose = pose.copy()
                     scaling_pose[:3] *= scale
-                    print(scaling_pose)
                     self.viz[f"/{actor_path}/{path}"].set_transform(scaling_pose)
 
         self.new_gym.add_method("set_rigid_body_color", set_rigid_body_color)
