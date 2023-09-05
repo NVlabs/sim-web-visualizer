@@ -47,6 +47,8 @@ Web Visualizer on [IsaacGymEnvs](https://github.com/NVIDIA-Omniverse/IsaacGymEnv
 Check the [SAPIEN Example](example/sapien/README.md) for information on running the
 Web Visualizer on [ManiSkill2](https://github.com/haosulab/ManiSkill2).
 
+![sapien](doc/sapien_side_by_side.gif)
+
 ### URDF Web Visualizer
 
 Check the [URDF Example](example/visualize_urdf/README.md) for information to visualize a static URDF file on Web

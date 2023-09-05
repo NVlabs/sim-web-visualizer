@@ -85,7 +85,7 @@ while True:
     try:
         obs = env.reset()
         done = False
-        for _ in range(100):
+        for _ in range(500):
             action = env.action_space.sample()
             obs, reward, terminated, truncated, info = env.step(action)
             if keep_on_screen_renderer:
