@@ -356,3 +356,9 @@ def bind_visualizer_to_sapien_scene(scene: sapien.Scene, engine: sapien.Engine, 
     if len(_REGISTERED_VISUALIZER) <= 0:
         raise RuntimeError(f"Web Visualizer has not been created yet! Call create_visualizer before register it to env")
     return _REGISTERED_VISUALIZER[0].set_scene(scene, engine, render)
+
+
+def get_visualizer() -> MeshCatVisualizerSapien:
+    if len(_REGISTERED_VISUALIZER) == 0:
+        raise RuntimeError(f"No SAPIEN Web Visualizer is created.")
+    return _REGISTERED_VISUALIZER[0]

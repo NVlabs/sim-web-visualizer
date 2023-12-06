@@ -10,7 +10,7 @@ __version__ = "0.5.0"
 
 try:
     import sapien.core as sapien
-    from .sapien_visualizer_client import create_sapien_visualizer, bind_visualizer_to_sapien_scene
+    from .sapien_visualizer_client import create_sapien_visualizer, bind_visualizer_to_sapien_scene, get_visualizer
 except ImportError as e:
     warnings.warn(str(e))
     warnings.warn(

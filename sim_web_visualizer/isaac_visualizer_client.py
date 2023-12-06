@@ -462,6 +462,6 @@ def bind_visualizer_to_gym(gym: gymapi.Gym, sim: gymapi.Sim):
     return _REGISTERED_VISUALIZER[0].set_gym_instance(gym, sim)
 
 
-def set_gpu_pipeline(use_gou_pipeline: bool):
+def set_gpu_pipeline(use_gpu_pipeline: bool):
     global USE_GPU_PIPELINE
-    USE_GPU_PIPELINE = use_gou_pipeline
+    USE_GPU_PIPELINE = use_gpu_pipeline
