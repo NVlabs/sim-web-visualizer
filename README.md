@@ -16,12 +16,13 @@ inside [jupyter notebook](example/isaacgym/train_isaacgym_remote_server.ipynb) o
 
 ## Installation
 
-First install ZeroMQ libraries on your system:
+From pip:
 
 ```shell
-apt install libzmq3-dev # For ubuntu
-brew install zmq # For Mac
+pip install sim_web_visualizer
 ```
+
+From source:
 
 **Note:** this visualizer does not have a Python version requirement but
 IsaacGym requires Python 3.6, 3.7, or 3.8
@@ -31,6 +32,14 @@ git clone https://github.com/NVlabs/sim-web-visualizer
 cd sim-web-visualizer && git submodule update --init --recursive
 pip install -e .
 
+```
+
+Troubleshooting:
+Try to install ZeroMQ libraries on your system if you encounter any related errors.
+
+```shell
+apt install libzmq3-dev # For ubuntu
+brew install zmq # For Mac
 ```
 
 ## Examples
