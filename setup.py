@@ -29,7 +29,7 @@ core_requirements = [
     "trimesh",
     "pycollada",
     "mujoco>=2.2.0",
-    f"meshcat @ file://localhost{str(_here.absolute())}/3rd_party/meshcat-python",
+    "meshcat-sim-web-fork",
 ]
 
 isaac_requirements = [
