@@ -465,3 +465,9 @@ def bind_visualizer_to_gym(gym: gymapi.Gym, sim: gymapi.Sim):
 def set_gpu_pipeline(use_gpu_pipeline: bool):
     global USE_GPU_PIPELINE
     USE_GPU_PIPELINE = use_gpu_pipeline
+
+
+def get_visualizer() -> MeshCatVisualizerIsaac:
+    if len(_REGISTERED_VISUALIZER) == 0:
+        raise RuntimeError(f"No IsaacGym Web Visualizer is created.")
+    return _REGISTERED_VISUALIZER[0]
