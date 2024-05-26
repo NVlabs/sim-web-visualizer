@@ -1,4 +1,19 @@
-# Web-Based Visualizer for Simulation Environments
+<div align="center">
+  <h1 align="center"> Sim Web Visualizer </h1>
+  <h3 align="center">
+    Web-Based Visualizer for Simulation Environments.
+  </h3>
+</div>
+<p align="center">
+  <!-- pypi badge -->
+  <a href="https://github.com/NVlabs/sim-web-visualizer/stargazers">
+  <img src="https://img.shields.io/github/stars/NVlabs/sim-web-visualizer" alt="star">
+  </a>
+  <!-- license badge -->
+  <a href="https://github.com/dexsuite/dex-retargeting/blob/main/LICENSE">
+      <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
+  </a>
+</p>
 
 |  IsaacGym Simulator  | ![](doc/isaacgymenv/allegro.png) | ![](doc/isaacgymenv/cabinet.png) | ![](doc/isaacgymenv/dog.png) | ![](doc/isaacgymenv/kuka.png) | ![](doc/isaacgymenv/trifinger.png) |
 |:--------------------:|:--------------------------------:|:--------------------------------:|:----------------------------:|:-----------------------------:|-----------------------------------:|
